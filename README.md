@@ -97,6 +97,23 @@ src/tg_cli/
 ├── db.py            # SQLite message store
 ```
 
+## Use as AI Agent Skill
+
+tg-cli ships with a [`SKILL.md`](./SKILL.md) for AI agent integration.
+
+### Claude Code / Antigravity
+
+```bash
+mkdir -p .agents/skills
+git clone git@github.com:jackwener/tg-cli.git .agents/skills/tg-cli
+```
+
+### OpenClaw / ClawHub
+
+```bash
+clawhub install tg-cli
+```
+
 ## License
 
 MIT
