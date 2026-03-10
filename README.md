@@ -6,6 +6,12 @@
 
 Telethon-powered Telegram CLI for local-first sync, search, export, and agent-friendly retrieval.
 
+## More Projects
+
+- [twitter-cli](https://github.com/jackwener/twitter-cli) — Twitter/X CLI for timelines, search, and posting
+- [bilibili-cli](https://github.com/jackwener/bilibili-cli) — Bilibili CLI for videos, users, search, and feeds
+- [discord-cli](https://github.com/jackwener/discord-cli) — Discord CLI for local-first sync, search, and export
+
 [English](#english) | [中文](#中文)
 
 ## English
@@ -351,6 +357,12 @@ clawhub install tg-cli
   - 先执行 `tg refresh`，或用 `tg chats --yaml` 找到准确的 `chat_id`
 - 为什么总要先同步
   - 因为 `tg-cli` 是 local-first 设计，大多数查询命令默认读本地 SQLite，不直接查 Telegram
+
+## 推荐项目
+
+- [twitter-cli](https://github.com/jackwener/twitter-cli) — Twitter/X 时间线、搜索与发帖 CLI
+- [bilibili-cli](https://github.com/jackwener/bilibili-cli) — Bilibili 视频、用户、搜索与动态 CLI
+- [discord-cli](https://github.com/jackwener/discord-cli) — Discord 本地优先同步、检索与导出 CLI
 
 ## License
 
