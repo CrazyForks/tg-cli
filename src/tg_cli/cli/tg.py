@@ -11,7 +11,14 @@ from ..client import connect, fetch_history, get_chat_info, list_chats, listen
 from ..console import console
 from ..db import MessageDB
 from ._chat import resolve_chat_id_or_print
-from ._output import emit_structured, structured_output_options
+from ._output import (
+    default_structured_format,
+    dump_structured,
+    emit_structured,
+    error_payload,
+    structured_output_options,
+    success_payload,
+)
 from ._sync import sync_all_dialogs, sync_chat_dialog
 
 
@@ -21,6 +28,19 @@ def _parse_chat(chat: str) -> str | int:
         return int(chat)
     except ValueError:
         return chat
+
+
+def _telegram_user_payload(me) -> dict[str, str | int]:
+    """Normalize Telegram user info for structured agent output."""
+    name = " ".join(part for part in [me.first_name, me.last_name] if part).strip()
+    return {
+        "id": me.id,
+        "name": name,
+        "username": me.username or "",
+        "first_name": me.first_name or "",
+        "last_name": me.last_name or "",
+        "phone": me.phone or "",
+    }
 
 
 @click.group("tg")
@@ -276,17 +296,18 @@ def tg_whoami(as_json: bool, as_yaml: bool):
             me = await client.get_me()
             return me
 
-    me = asyncio.run(_run())
+    fmt = default_structured_format(as_json=as_json, as_yaml=as_yaml)
+    try:
+        me = asyncio.run(_run())
+    except Exception as exc:
+        if fmt is not None:
+            click.echo(dump_structured(error_payload("auth_error", str(exc)), fmt=fmt))
+            raise SystemExit(1) from None
+        raise click.ClickException(str(exc)) from exc
 
-    info = {
-        "id": me.id,
-        "first_name": me.first_name or "",
-        "last_name": me.last_name or "",
-        "username": me.username or "",
-        "phone": me.phone or "",
-    }
+    info = _telegram_user_payload(me)
 
-    if emit_structured(info, as_json=as_json, as_yaml=as_yaml):
+    if emit_structured(success_payload({"user": info}), as_json=as_json, as_yaml=as_yaml):
         return
 
     name = " ".join(p for p in [me.first_name, me.last_name] if p)
@@ -320,8 +341,21 @@ def tg_status(as_json: bool, as_yaml: bool):
                 "phone": me.phone or "",
             }
 
-    info = asyncio.run(_run())
-    if emit_structured(info, as_json=as_json, as_yaml=as_yaml):
+    fmt = default_structured_format(as_json=as_json, as_yaml=as_yaml)
+    try:
+        info = asyncio.run(_run())
+    except Exception as exc:
+        if fmt is not None:
+            click.echo(dump_structured(error_payload("auth_error", str(exc)), fmt=fmt))
+            raise SystemExit(1) from None
+        raise click.ClickException(str(exc)) from exc
+
+    user = {key: value for key, value in info.items() if key != "authenticated"}
+    if emit_structured(
+        success_payload({"authenticated": True, "user": user}),
+        as_json=as_json,
+        as_yaml=as_yaml,
+    ):
         return
 
     name = " ".join(part for part in [info["first_name"], info["last_name"]] if part).strip()

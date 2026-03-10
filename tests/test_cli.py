@@ -268,8 +268,37 @@ class TestStatus:
         result = runner.invoke(cli, ["status", "--yaml"])
         assert result.exit_code == 0
         data = yaml.safe_load(result.output)
-        assert data["authenticated"] is True
-        assert data["username"] == "alice"
+        assert data["ok"] is True
+        assert data["schema_version"] == "1"
+        assert data["data"]["authenticated"] is True
+        assert data["data"]["user"]["username"] == "alice"
+
+    def test_whoami_yaml(self, runner, monkeypatch):
+        import tg_cli.cli.tg as tg_mod
+
+        class FakeMe:
+            id = 123
+            first_name = "Alice"
+            last_name = "Smith"
+            username = "alice"
+            phone = "123456"
+
+        class FakeClient:
+            async def get_me(self):
+                return FakeMe()
+
+        @asynccontextmanager
+        async def fake_connect():
+            yield FakeClient()
+
+        monkeypatch.setattr(tg_mod, "connect", fake_connect)
+        result = runner.invoke(cli, ["whoami", "--yaml"])
+        assert result.exit_code == 0
+        data = yaml.safe_load(result.output)
+        assert data["ok"] is True
+        assert data["schema_version"] == "1"
+        assert data["data"]["user"]["username"] == "alice"
+        assert data["data"]["user"]["name"] == "Alice Smith"
 
     def test_today_sync_first_refreshes_before_query(self, runner, tmp_path, monkeypatch):
         db_path = tmp_path / "test.db"
