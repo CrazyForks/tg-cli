@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.4.3 - 2026-03-11
+
+- Use Telegram Desktop built-in API credentials (API_ID=2040) as defaults; users no longer need to apply for their own app credentials
+- Updated README and SKILL.md to reflect zero-config authentication
+
 ## 0.4.1 - 2026-03-10
 
 - Fixed GitHub publish workflow permissions so PyPI checkout can read repository contents

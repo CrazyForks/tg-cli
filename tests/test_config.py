@@ -10,12 +10,11 @@ class TestConfig:
 
         assert get_api_id() == 12345
 
-    def test_get_api_id_missing_raises(self, monkeypatch):
+    def test_get_api_id_default(self, monkeypatch):
         monkeypatch.delenv("TG_API_ID", raising=False)
-        from tg_cli.config import MissingTelegramCredentialsError, get_api_id
+        from tg_cli.config import get_api_id
 
-        with pytest.raises(MissingTelegramCredentialsError):
-            get_api_id()
+        assert get_api_id() == 2040
 
     def test_get_api_hash(self, monkeypatch):
         monkeypatch.setenv("TG_API_HASH", "abc123")
@@ -23,12 +22,11 @@ class TestConfig:
 
         assert get_api_hash() == "abc123"
 
-    def test_get_api_hash_missing_raises(self, monkeypatch):
+    def test_get_api_hash_default(self, monkeypatch):
         monkeypatch.delenv("TG_API_HASH", raising=False)
-        from tg_cli.config import MissingTelegramCredentialsError, get_api_hash
+        from tg_cli.config import get_api_hash
 
-        with pytest.raises(MissingTelegramCredentialsError):
-            get_api_hash()
+        assert get_api_hash() == "b18441a1ff607e10a989891a5462e627"
 
     def test_get_session_name_default(self, monkeypatch):
         monkeypatch.delenv("TG_SESSION_NAME", raising=False)

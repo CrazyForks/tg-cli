@@ -7,12 +7,11 @@ from collections.abc import AsyncGenerator, Callable
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 
-import click
+
 from telethon import TelegramClient, events
 from telethon.tl.types import Channel, Chat, User
 
 from .config import (
-    MissingTelegramCredentialsError,
     get_api_hash,
     get_api_id,
     get_session_path,
@@ -36,11 +35,8 @@ def _get_sender_name(sender: User | Channel | Chat | None) -> str | None:
 @asynccontextmanager
 async def connect() -> AsyncGenerator[TelegramClient, None]:
     """Async context manager for Telegram client — single connection, reuse within scope."""
-    try:
-        api_id = get_api_id()
-        api_hash = get_api_hash()
-    except MissingTelegramCredentialsError as exc:
-        raise click.ClickException(str(exc)) from exc
+    api_id = get_api_id()
+    api_hash = get_api_hash()
 
     c = TelegramClient(get_session_path(), api_id, api_hash)
     await c.start()

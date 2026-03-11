@@ -8,7 +8,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from .exceptions import NotAuthenticatedError
+
 
 # Load .env from project root
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -50,30 +50,24 @@ _load_env()
 
 APP_NAME = "tg-cli"
 
-_API_SETUP_HELP = (
-    "Missing Telegram app credentials. Set TG_API_ID and TG_API_HASH in your environment "
-    "or .env file. You can create them at https://my.telegram.org/apps"
-)
+# Telegram Desktop built-in credentials (public, no application needed)
+_DEFAULT_API_ID = 2040
+_DEFAULT_API_HASH = "b18441a1ff607e10a989891a5462e627"
 
-
-
-
-class MissingTelegramCredentialsError(NotAuthenticatedError):
-    """Raised when TG_API_ID or TG_API_HASH is not configured."""
 
 
 def get_api_id() -> int:
     val = os.environ.get("TG_API_ID", "")
-    if not val:
-        raise MissingTelegramCredentialsError(_API_SETUP_HELP)
-    return int(val)
+    if val:
+        return int(val)
+    return _DEFAULT_API_ID
 
 
 def get_api_hash() -> str:
     val = os.environ.get("TG_API_HASH", "")
-    if not val:
-        raise MissingTelegramCredentialsError(_API_SETUP_HELP)
-    return val
+    if val:
+        return val
+    return _DEFAULT_API_HASH
 
 
 def get_session_name() -> str:

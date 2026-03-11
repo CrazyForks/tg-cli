@@ -68,12 +68,7 @@ uv sync --extra dev
 ## Quick Start
 
 ```bash
-# Apply for your own Telegram app credentials first:
-# https://my.telegram.org/apps
-export TG_API_ID=123456
-export TG_API_HASH=your_telegram_app_hash
-
-# First login
+# First login (uses Telegram Desktop built-in credentials by default)
 tg chats
 
 # Check the current account
@@ -191,8 +186,6 @@ clawhub install tg-cli
 
 ## Troubleshooting
 
-- `Missing TG_API_ID / TG_API_HASH`
-  - Apply for your own app credentials at [my.telegram.org/apps](https://my.telegram.org/apps).
 - `No messages today`
   - Run `tg refresh` first, or use `tg today --sync-first`.
 - `Chat '...' not found in database`
@@ -253,11 +246,7 @@ uv sync --extra dev
 ## 快速开始
 
 ```bash
-# 先去 https://my.telegram.org/apps 申请自己的 app credentials
-export TG_API_ID=123456
-export TG_API_HASH=your_telegram_app_hash
-
-# 首次登录
+# 首次登录（默认使用 Telegram Desktop 内置的 API 凭证）
 tg chats
 
 # 检查当前账号
@@ -379,8 +368,6 @@ clawhub install tg-cli
 
 ## 常见问题
 
-- 缺少 `TG_API_ID` / `TG_API_HASH`
-  - 去 [my.telegram.org/apps](https://my.telegram.org/apps) 申请自己的 app credentials
 - `No messages today`
   - 先执行 `tg refresh`，或直接使用 `tg today --sync-first`
 - `Chat '...' not found in database`

@@ -29,14 +29,15 @@ uv tool upgrade kabi-tg-cli
 
 ## Authentication
 
-Uses your Telegram account (MTProto). You must provide your own Telegram app credentials.
+Uses your Telegram account (MTProto). Built-in Telegram Desktop API credentials are used by default — no application needed.
 
 ```bash
-export TG_API_ID=123456
-export TG_API_HASH=your_telegram_app_hash
-# Or create a .env file with the same variables
 tg chats              # First run: enter phone + verification code
 tg whoami             # Check current user
+
+# Optional: use your own app credentials
+export TG_API_ID=123456
+export TG_API_HASH=your_telegram_app_hash
 ```
 
 ## Command Reference
