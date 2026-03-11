@@ -42,6 +42,15 @@ pipx install kabi-tg-cli
 pip install kabi-tg-cli
 ```
 
+Upgrade to the latest version:
+
+```bash
+uv tool upgrade kabi-tg-cli
+# Or: pipx upgrade kabi-tg-cli
+```
+
+> **Tip:** Upgrade regularly to avoid unexpected errors from outdated API handling.
+
 Install from GitHub:
 
 ```bash
@@ -217,6 +226,15 @@ uv tool install kabi-tg-cli
 pipx install kabi-tg-cli
 pip install kabi-tg-cli
 ```
+
+升级到最新版本：
+
+```bash
+uv tool upgrade kabi-tg-cli
+# 或：pipx upgrade kabi-tg-cli
+```
+
+> **提示：** 建议定期升级，避免因版本过旧导致的 API 调用异常。
 
 从 GitHub 安装：
 

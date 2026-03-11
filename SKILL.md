@@ -21,6 +21,10 @@ CLI tool for Telegram — sync chats, search messages, filter keywords, send mes
 # Install (requires Python 3.10+)
 uv tool install kabi-tg-cli
 # Or: pipx install kabi-tg-cli
+
+# Upgrade to latest (recommended to avoid API errors)
+uv tool upgrade kabi-tg-cli
+# Or: pipx upgrade kabi-tg-cli
 ```
 
 ## Authentication
