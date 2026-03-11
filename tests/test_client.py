@@ -5,10 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-import click
 import pytest
 
-from tg_cli.client import connect, fetch_history, sync_all
+from tg_cli.client import fetch_history, sync_all
 
 
 @dataclass
@@ -108,10 +107,17 @@ async def test_sync_all_discovers_dialogs_from_client(db):
 
 
 @pytest.mark.asyncio
-async def test_connect_requires_user_provided_credentials(monkeypatch):
+async def test_connect_uses_default_credentials_when_env_unset(monkeypatch):
+    """When TG_API_ID/TG_API_HASH are not set, connect() should use Telegram Desktop defaults."""
     monkeypatch.delenv("TG_API_ID", raising=False)
     monkeypatch.delenv("TG_API_HASH", raising=False)
 
-    with pytest.raises(click.ClickException, match="Missing Telegram app credentials"):
-        async with connect():
-            pass
+    from tg_cli.config import get_api_hash, get_api_id
+
+    api_id = get_api_id()
+    api_hash = get_api_hash()
+    # Defaults should be set (Telegram Desktop credentials)
+    assert api_id is not None
+    assert api_hash is not None
+    assert isinstance(api_id, int)
+    assert len(api_hash) > 0
