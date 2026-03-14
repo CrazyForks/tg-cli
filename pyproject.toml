@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "kabi-tg-cli"
-version = "0.5.3"
+version = "0.5.4"
 description = "Telethon-powered Telegram CLI for local sync, search, and agent-friendly retrieval"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -71,4 +71,6 @@ select = ["E", "F", "I", "B", "UP"]
 dev = [
     "pytest>=9.0.2",
     "pytest-asyncio>=1.3.0",
+    "ruff>=0.11.0",
+    "twine>=6.1.0",
 ]
